@@ -60,6 +60,9 @@ let textoEnergia;
 let textoFome;
 let textoFelicidade;
 let textoLocal;
+let botaoTrabalhar;
+let botaoComer;
+let botaoDormir;
 function preload(){
 
 }
@@ -147,6 +150,11 @@ function passarTempo(){
     }
 
     atualizarHUD();
+    botaoTrabalhar = criarBotao(this,30,480,"💼 Trabalhar",trabalhar);
+
+botaoComer = criarBotao(this,30,540,"🍔 Comer",comer);
+
+botaoDormir = criarBotao(this,30,600,"😴 Dormir",dormir);
 
 }
 function atualizarHUD(){
@@ -188,6 +196,103 @@ function passarTempo(){
         mundo.dia++;
 
     }
+
+    atualizarHUD();
+
+}
+function criarBotao(scene,x,y,texto,acao){
+
+    const fundo = scene.add.rectangle(x,y,220,45,0x2d89ef)
+        .setOrigin(0,0);
+
+    const label = scene.add.text(x+15,y+10,texto,{
+
+        fontSize:"22px",
+
+        color:"#ffffff"
+
+    });
+
+    fundo.setInteractive({useHandCursor:true});
+
+    fundo.on("pointerover",()=>{
+
+        fundo.setFillStyle(0x1c6dd0);
+
+    });
+
+    fundo.on("pointerout",()=>{
+
+        fundo.setFillStyle(0x2d89ef);
+
+    });
+
+    fundo.on("pointerdown",acao);
+
+    return fundo;
+
+}
+function trabalhar(){
+
+    jogador.dinheiro += 40;
+
+    jogador.energia -= 15;
+
+    jogador.fome += 12;
+
+    jogador.felicidade += 2;
+
+    if(jogador.energia < 0){
+
+        jogador.energia = 0;
+
+    }
+
+    atualizarHUD();
+
+}
+function comer(){
+
+    if(jogador.dinheiro >= 20){
+
+        jogador.dinheiro -=20;
+
+        jogador.fome -=30;
+
+        jogador.energia +=10;
+
+        jogador.felicidade +=5;
+
+    }
+
+    if(jogador.fome<0){
+
+        jogador.fome=0;
+
+    }
+
+    if(jogador.energia>100){
+
+        jogador.energia=100;
+
+    }
+
+    atualizarHUD();
+
+}
+function dormir(){
+
+    jogador.energia=100;
+
+    jogador.fome+=15;
+
+    jogador.felicidade+=8;
+
+    mundo.hora=7;
+
+    mundo.minuto=0;
+
+    mundo.dia++;
 
     atualizarHUD();
 
