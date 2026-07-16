@@ -1,4 +1,3 @@
-
 const config = {
 
     type: Phaser.AUTO,
@@ -63,6 +62,7 @@ let textoLocal;
 let botaoTrabalhar;
 let botaoComer;
 let botaoDormir;
+
 function preload(){
 
 }
@@ -95,6 +95,11 @@ function create(){
 
     textoLocal=this.add.text(30,400,"",{fontSize:"24px",color:"#000"});
 
+    // Botões criados apenas UMA VEZ, aqui em create()
+    botaoTrabalhar = criarBotao(this,30,480,"💼 Trabalhar",trabalhar);
+    botaoComer = criarBotao(this,30,540,"🍔 Comer",comer);
+    botaoDormir = criarBotao(this,30,600,"😴 Dormir",dormir);
+
     atualizarHUD();
 
     this.time.addEvent({
@@ -109,54 +114,10 @@ function create(){
 
 }
 
-function atualizarHUD(){
-
-    textoDia.setText("📅 Dia: " + mundo.dia);
-
-    textoHora.setText("🕒 Hora: " + String(mundo.hora).padStart(2,"0") + ":" + String(mundo.minuto).padStart(2,"0"));
-
-    textoClima.setText("🌤️ Clima: " + mundo.clima);
-
-    textoDinheiro.setText("💰 Dinheiro: R$ " + jogador.dinheiro);
-
-    textoEnergia.setText("⚡ Energia: " + jogador.energia);
-
-    textoFome.setText("🍔 Fome: " + jogador.fome);
-
-    textoFelicidade.setText("😊 Felicidade: " + jogador.felicidade);
-
-    textoLocal.setText("🏠 Local: " + jogador.local);
+function update(){
 
 }
 
-function passarTempo(){
-
-    mundo.minuto += 10;
-
-    if(mundo.minuto >= 60){
-
-        mundo.minuto = 0;
-
-        mundo.hora++;
-
-    }
-
-    if(mundo.hora >= 24){
-
-        mundo.hora = 0;
-
-        mundo.dia++;
-
-    }
-
-    atualizarHUD();
-    botaoTrabalhar = criarBotao(this,30,480,"💼 Trabalhar",trabalhar);
-
-botaoComer = criarBotao(this,30,540,"🍔 Comer",comer);
-
-botaoDormir = criarBotao(this,30,600,"😴 Dormir",dormir);
-
-}
 function atualizarHUD(){
 
     textoDia.setText("📅 Dia: " + mundo.dia);
@@ -200,6 +161,7 @@ function passarTempo(){
     atualizarHUD();
 
 }
+
 function criarBotao(scene,x,y,texto,acao){
 
     const fundo = scene.add.rectangle(x,y,220,45,0x2d89ef)
@@ -232,6 +194,7 @@ function criarBotao(scene,x,y,texto,acao){
     return fundo;
 
 }
+
 function trabalhar(){
 
     jogador.dinheiro += 40;
@@ -251,6 +214,7 @@ function trabalhar(){
     atualizarHUD();
 
 }
+
 function comer(){
 
     if(jogador.dinheiro >= 20){
@@ -280,6 +244,7 @@ function comer(){
     atualizarHUD();
 
 }
+
 function dormir(){
 
     jogador.energia=100;
